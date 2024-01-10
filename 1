@@ -1,0 +1,37 @@
+Create and implement a basic neuron model within a computational framework. Integrate essential elements like input nodes, weight parameters, bias, and an activation function (such as sigmoid or a step function) to construct a comprehensive representation of a neuron.
+
+
+from random import random
+import math
+def sigmoid(x):
+  return 1/(1+math.exp(-x))
+def Relu(x):
+  return max(0,x)
+signal = []
+weight = []
+sum_result = 0
+# bias
+signal.append(1)
+bias=random()
+weight.append(bias)
+
+n = int(input("Enter the number of signals: "))
+
+for i in range(1,n+1):
+    s = int(input("Enter signal number {}: ".format(i)))
+    signal.append(s)
+
+for i in range(1,n+1):
+  weight.append(random())
+
+for i in range(n):
+  sum_result+=weight[i]*signal[i]
+print("Input",signal)
+print("sum is {}".format(sum_result))
+print(f"Weights are {weight}")
+# ReLu Activation Function
+print("ReLu Function Output",Relu(sum_result))
+# Sigmoid function
+print("Sigmoid Function Output",sigmoid(sum_result))
+
+
