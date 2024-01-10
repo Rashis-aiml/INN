@@ -1,0 +1,59 @@
+Develop and implement a program to execute the perceptron learning algorithm, customized to train a single-layer perceptron for binary classification tasks. create a robust algorithm that refines the model's weights iteratively, resulting in a proficient single-layer perceptron capable of effectively handling binary classification challenges.
+
+
+import numpy as np
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+class Perceptron:
+    def __init__(self, learning_rate=0.01, max_epochs=100):
+        self.learning_rate = learning_rate
+        self.max_epochs = max_epochs
+        self.weights = None
+        self.bias = None
+
+    def fit(self, X, y):
+        self.weights = np.zeros(X.shape[1])
+        self.bias = 0.0
+
+        for epoch in range(self.max_epochs):
+            misclassified = 0
+
+            for i in range(X.shape[0]):
+                y_pred = self.predict(X[i])
+
+                if y[i] != y_pred:
+                    update = self.learning_rate * (y[i] - y_pred)
+                    self.weights += update * X[i]
+                    self.bias += update
+                    misclassified += 1
+
+            if misclassified == 0:
+                print(f"Converged in {epoch + 1} epochs.")
+                break
+
+        if misclassified > 0:
+            print("Did not converge within the specified number of epochs.")
+
+    def predict(self, x):
+        activation = np.dot(self.weights, x) + self.bias
+        return 1 if activation > 0 else 0
+
+iris = load_iris()
+X_iris = iris.data[:100, :4]  # Using only the first two features for simplicity
+y_iris = (iris.target[:100] == 0).astype(int)  # Binary classification: Iris setosa or not
+
+
+scaler = StandardScaler()
+X_iris = scaler.fit_transform(X_iris)
+
+
+X_train, X_test, y_train, y_test = train_test_split(X_iris, y_iris, test_size=0.2, random_state=42)
+
+perceptron = Perceptron(learning_rate=0.01, max_epochs=100)
+perceptron.fit(X_train, y_train)
+
+
+predictions = [perceptron.predict(x) for x in X_test]
+print("Predictions:", predictions)
