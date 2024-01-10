@@ -1,0 +1,109 @@
+Implement a diverse set of activation functions, including but not limited to sigmoid, hyperbolic tangent, and Rectified Linear Unit (ReLU), and analyse their impact on the performance of the neural network. Evaluate and observe how each activation function influences the network's behaviour and effectiveness in handling different types of data.
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import math
+
+
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+    # or use math function and return 1/(1+math.exp(-x))
+
+def d_sigmoid(x):
+    return sigmoid(x) * (1 - sigmoid(x))
+
+x=np.linspace(-5,5,100)
+y=sigmoid(x)
+d=d_sigmoid(x)
+df = pd.DataFrame({"x": x, "sigmoid(x)": y, "d_sigmoid(x)": d})
+df.head()
+plt.style.use("dark_background")
+fig = plt.figure(figsize=(9,4))
+plt.plot(x, y, c="lightgreen", linewidth=3.0, label="$\sigma(x)$")
+plt.plot(x, d, c="lightblue", linewidth=3.0, label="$\\frac{d}{dx} \sigma(x)$")
+plt.title('Binary Sigmoid Activation Function')
+plt.legend(prop={'size': 20})
+plt.show()
+
+
+
+
+
+
+
+fig = plt.figure(figsize=(9,4))
+def hyperbolic(x):
+    return np.tanh(x)
+x=np.linspace(-5,5)
+y=hyperbolic(x)
+df = pd.DataFrame({"x": x, "hyperbolic(x)": y})
+df.head()
+plt.style.use("dark_background")
+
+plt.plot(x, y, c="lightgreen", linewidth=3.0, label="$hyperbolic(x)$")
+plt.title('Hyperbolic Tan Activation Function')
+plt.legend(prop={'size': 20})
+plt.show()
+
+
+
+
+
+
+
+
+def relu1(x):
+  lst=[]
+  for i in x:
+    if i<0:
+      lst.append(0)
+    else:
+      lst.append(i)
+  return lst
+array=np.linspace(-5,5)
+y=relu1(array)
+plt.plot(array,y)
+plt.title('ReLu Activation Function')
+plt.show()
+
+
+
+
+
+
+
+def leakyrelu1(x):
+  lst=[]
+  for i in x:
+    if i<0:
+      lst.append(0.1*i)
+    else:
+      lst.append(i)
+  return lst
+array=np.linspace(-5,5)
+y=leakyrelu1(array)
+plt.plot(array,y)
+plt.title('Leaky ReLu Activation Function')
+plt.show()
+
+
+
+
+
+
+def binary(x):
+  lst=[]
+  for i in x:
+    if i<0:
+      lst.append(0)
+    else:
+      lst.append(1)
+  return lst
+array=np.linspace(-5,5,100)
+y=binary(array)
+plt.plot(array,y)
+plt.title("Binary Step Activation Function")
+plt.show()
